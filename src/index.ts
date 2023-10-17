@@ -1,31 +1,10 @@
 require("dotenv").config();
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { gql } from 'graphql-tag';
+import { readFileSync } from 'node:fs'
 import { Client } from "@apperate/iexjs";
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json';
 
-const typeDefs = gql`
-    scalar JSON
-
-    type Query {
-        hello: String!
-    }
-
-    type Mutation {
-        quote(symbol: String!): QuoteResult!
-    }
-
-    type QuoteResult {
-        change: Float!
-        changePercent: Float!
-        companyName: String!
-        peRatio: Float!
-        symbol: String!
-        delayedPrice: Float!
-        previousClose: Float!
-    }
-`;
 
 const client = new Client({
     api_token: process.env.IEX_API_TOKEN, 
@@ -33,7 +12,7 @@ const client = new Client({
 });
 
 const getQuote = (symbol: string) => {
-    return client.quote({ symbol: "AAPL" });
+    return client.quote({ symbol });
 }
 
 const resolvers = {
@@ -47,6 +26,8 @@ const resolvers = {
         },
     },
 };
+
+const typeDefs = readFileSync('./src/graphql/schema.graphql', 'utf8')
 
 const server = new ApolloServer({
     typeDefs,
