@@ -12,7 +12,7 @@ type QuoteResult {
     change: Float!
     changePercent: Float!
     companyName: String!
-    peRatio: Float!
+    peRatio: Float
     symbol: String!
     latestPrice: Float!
     previousClose: Float!
