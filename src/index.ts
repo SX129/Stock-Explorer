@@ -1,31 +1,8 @@
 require("dotenv").config();
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { readFileSync } from 'node:fs'
-import { Client } from "@apperate/iexjs";
-import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json';
-
-
-const client = new Client({
-    api_token: process.env.IEX_API_TOKEN, 
-    version: "v1"
-});
-
-const getQuote = (symbol: string) => {
-    return client.quote({ symbol });
-}
-
-const resolvers = {
-    JSON: GraphQLJSON,
-    Query: {
-        hello: () => "world",
-    },
-    Mutation: {
-        quote: (_: any, {symbol}: {symbol: string}) => {
-            return getQuote(symbol);
-        },
-    },
-};
+import { readFileSync } from 'node:fs';
+import resolvers from './graphql/resolvers';
 
 const typeDefs = readFileSync('./src/graphql/schema.graphql', 'utf8')
 
