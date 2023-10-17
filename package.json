@@ -13,12 +13,15 @@
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
     "@types/node": "18",
+    "dotenv": "^16.3.1",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1"
   },
   "dependencies": {
     "@apollo/server": "^4.9.4",
+    "@apperate/iexjs": "^0.10.0",
     "graphql": "^16.8.1",
-    "graphql-tag": "^2.12.6"
+    "graphql-tag": "^2.12.6",
+    "graphql-type-json": "^0.3.2"
   }
 }
