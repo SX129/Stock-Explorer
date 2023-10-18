@@ -3,6 +3,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client
 import Dashboard from './screens/Dashboard';
 import Overview from './screens/Overview';
 
+//Initializing Apollo client for local development
 const client = new ApolloClient({
   uri: 'http://localhost:4000/',
   cache: new InMemoryCache(),

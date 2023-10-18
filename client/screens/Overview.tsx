@@ -1,8 +1,9 @@
-import { gql, useLazyQuery, useQuery } from "@apollo/client";
+import { gql, useLazyQuery } from "@apollo/client";
 import { FC, useState } from "react";
+import { DateTime } from 'luxon';
 import React from "react";
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { VictoryAxis, VictoryBar, VictoryChart, VictoryTheme } from "victory";
+import { VictoryAxis, VictoryBar, VictoryChart, VictoryTheme, VictoryLabel } from "victory";
 
 const styles = StyleSheet.create({
     searchOuter: {
@@ -41,9 +42,13 @@ const styles = StyleSheet.create({
     }
 });
 
+//Overview component with Victory charts and Luxon datetime
 const Overview: FC = () => {
+
+    //State hook for getting and setting stock ticker
     const [symbol, setSymbol] = useState("");
 
+    //Query hook to retrieve queried data and its state
     const [execQuery, {data, loading, error}] = useLazyQuery(gql`
         query Lookup($symbol: String!) {
             lookup(symbol: $symbol) {
@@ -58,7 +63,8 @@ const Overview: FC = () => {
 
     if (error) return <Text>{error.message}</Text>;
 
-    const chartData = data ? (data.lookup.revenue) : [];
+    //Destructuring revenue from queried data and reversing the array to fit the look of the chart
+    const chartData = data ? [...data.lookup.revenue].reverse() : [];
 
     return (
         <ScrollView style={{width: '100%'}}>
@@ -74,9 +80,16 @@ const Overview: FC = () => {
             <View style={styles.victoryContainer}>
                 <VictoryChart theme={VictoryTheme.material} domainPadding={20}>
                     <VictoryAxis
-                        tickFormat={[]} 
+                        tickFormat={(date: string) => DateTime.fromISO(date).toLocaleString({
+                            month: 'short',
+                            year: 'numeric',
+                            })
+                        }
+                        tickLabelComponent={
+                            <VictoryLabel angle={-45} style={{ fontSize: 8 }} textAnchor="end" />
+                        } 
                     />
-                    <VictoryAxis dependentAxis tickFormat={(x) => `$${x / 1000}k`} />
+                    <VictoryAxis dependentAxis tickFormat={(x) => `$${x / 1000000000}b`} />
                     <VictoryBar data={chartData} x="date" y="value" />
                 </VictoryChart>
             </View> }
