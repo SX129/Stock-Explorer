@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { Lookup } from '../graphql/types';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -14,25 +15,48 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
   JSON: { input: any; output: any; }
 };
 
-export type Mutation = {
-  __typename?: 'Mutation';
-  quote: QuoteResult;
+export type GqlDataPoint = {
+  __typename?: 'DataPoint';
+  date: Scalars['Date']['output'];
+  value: Scalars['Int']['output'];
+};
+
+export type GqlLookup = {
+  __typename?: 'Lookup';
+  revenue: Array<GqlDataPoint>;
+  symbol: Scalars['String']['output'];
 };
 
 
-export type MutationQuoteArgs = {
+export type GqlLookupRevenueArgs = {
+  resolution: GqlResolution;
+};
+
+export type GqlMutation = {
+  __typename?: 'Mutation';
+  quote: GqlQuoteResult;
+};
+
+
+export type GqlMutationQuoteArgs = {
   symbol: Scalars['String']['input'];
 };
 
-export type Query = {
+export type GqlQuery = {
   __typename?: 'Query';
-  hello: Scalars['String']['output'];
+  lookup: GqlLookup;
 };
 
-export type QuoteResult = {
+
+export type GqlQueryLookupArgs = {
+  symbol: Scalars['String']['input'];
+};
+
+export type GqlQuoteResult = {
   __typename?: 'QuoteResult';
   change: Scalars['Float']['output'];
   changePercent: Scalars['Float']['output'];
@@ -42,6 +66,11 @@ export type QuoteResult = {
   previousClose: Scalars['Float']['output'];
   symbol: Scalars['String']['output'];
 };
+
+export enum GqlResolution {
+  Annual = 'annual',
+  Quarterly = 'quarterly'
+}
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
@@ -114,54 +143,82 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 
 /** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = ResolversObject<{
+export type GqlResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  DataPoint: ResolverTypeWrapper<GqlDataPoint>;
+  Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
+  Lookup: ResolverTypeWrapper<Lookup>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
-  QuoteResult: ResolverTypeWrapper<QuoteResult>;
+  QuoteResult: ResolverTypeWrapper<GqlQuoteResult>;
+  Resolution: GqlResolution;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = ResolversObject<{
+export type GqlResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
+  DataPoint: GqlDataPoint;
+  Date: Scalars['Date']['output'];
   Float: Scalars['Float']['output'];
+  Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
+  Lookup: Lookup;
   Mutation: {};
   Query: {};
-  QuoteResult: QuoteResult;
+  QuoteResult: GqlQuoteResult;
   String: Scalars['String']['output'];
 }>;
 
-export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
-  name: 'JSON';
-}
-
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  quote?: Resolver<ResolversTypes['QuoteResult'], ParentType, ContextType, RequireFields<MutationQuoteArgs, 'symbol'>>;
-}>;
-
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-}>;
-
-export type QuoteResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuoteResult'] = ResolversParentTypes['QuoteResult']> = ResolversObject<{
-  change?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  changePercent?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  companyName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  latestPrice?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  peRatio?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  previousClose?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  symbol?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+export type GqlDataPointResolvers<ContextType = any, ParentType extends GqlResolversParentTypes['DataPoint'] = GqlResolversParentTypes['DataPoint']> = ResolversObject<{
+  date?: Resolver<GqlResolversTypes['Date'], ParentType, ContextType>;
+  value?: Resolver<GqlResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = any> = ResolversObject<{
+export interface GqlDateScalarConfig extends GraphQLScalarTypeConfig<GqlResolversTypes['Date'], any> {
+  name: 'Date';
+}
+
+export interface GqlJsonScalarConfig extends GraphQLScalarTypeConfig<GqlResolversTypes['JSON'], any> {
+  name: 'JSON';
+}
+
+export type GqlLookupResolvers<ContextType = any, ParentType extends GqlResolversParentTypes['Lookup'] = GqlResolversParentTypes['Lookup']> = ResolversObject<{
+  revenue?: Resolver<Array<GqlResolversTypes['DataPoint']>, ParentType, ContextType, RequireFields<GqlLookupRevenueArgs, 'resolution'>>;
+  symbol?: Resolver<GqlResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type GqlMutationResolvers<ContextType = any, ParentType extends GqlResolversParentTypes['Mutation'] = GqlResolversParentTypes['Mutation']> = ResolversObject<{
+  quote?: Resolver<GqlResolversTypes['QuoteResult'], ParentType, ContextType, RequireFields<GqlMutationQuoteArgs, 'symbol'>>;
+}>;
+
+export type GqlQueryResolvers<ContextType = any, ParentType extends GqlResolversParentTypes['Query'] = GqlResolversParentTypes['Query']> = ResolversObject<{
+  lookup?: Resolver<GqlResolversTypes['Lookup'], ParentType, ContextType, RequireFields<GqlQueryLookupArgs, 'symbol'>>;
+}>;
+
+export type GqlQuoteResultResolvers<ContextType = any, ParentType extends GqlResolversParentTypes['QuoteResult'] = GqlResolversParentTypes['QuoteResult']> = ResolversObject<{
+  change?: Resolver<GqlResolversTypes['Float'], ParentType, ContextType>;
+  changePercent?: Resolver<GqlResolversTypes['Float'], ParentType, ContextType>;
+  companyName?: Resolver<GqlResolversTypes['String'], ParentType, ContextType>;
+  latestPrice?: Resolver<GqlResolversTypes['Float'], ParentType, ContextType>;
+  peRatio?: Resolver<Maybe<GqlResolversTypes['Float']>, ParentType, ContextType>;
+  previousClose?: Resolver<GqlResolversTypes['Float'], ParentType, ContextType>;
+  symbol?: Resolver<GqlResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type GqlResolvers<ContextType = any> = ResolversObject<{
+  DataPoint?: GqlDataPointResolvers<ContextType>;
+  Date?: GraphQLScalarType;
   JSON?: GraphQLScalarType;
-  Mutation?: MutationResolvers<ContextType>;
-  Query?: QueryResolvers<ContextType>;
-  QuoteResult?: QuoteResultResolvers<ContextType>;
+  Lookup?: GqlLookupResolvers<ContextType>;
+  Mutation?: GqlMutationResolvers<ContextType>;
+  Query?: GqlQueryResolvers<ContextType>;
+  QuoteResult?: GqlQuoteResultResolvers<ContextType>;
 }>;
 

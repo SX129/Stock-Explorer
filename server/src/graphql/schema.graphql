@@ -1,11 +1,31 @@
+#Imported scalar types from graphql-scalers
+scalar Date
+scalar BigInt
 scalar JSON
 
+#Schema entry points
 type Query {
-    hello: String!
+    lookup(symbol: String!): Lookup!
 }
 
 type Mutation {
     quote(symbol: String!): QuoteResult!
+}
+
+#Type definitions for schema
+enum Resolution {
+    annual
+    quarterly
+}
+
+type Lookup {
+    symbol: String!
+    revenue(resolution: Resolution!): [DataPoint!]!
+}
+
+type DataPoint {
+    date: Date!
+    value: BigInt!
 }
 
 type QuoteResult {
