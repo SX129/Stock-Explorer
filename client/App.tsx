@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 import Dashboard from './screens/Dashboard';
+import Overview from './screens/Overview';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/',
@@ -11,7 +12,7 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <View style={styles.container}>
-        <Dashboard />
+        <Overview />
       </View>
     </ApolloProvider>
   );
