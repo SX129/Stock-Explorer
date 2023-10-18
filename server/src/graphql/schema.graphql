@@ -3,13 +3,9 @@ scalar Date
 scalar BigInt
 scalar JSON
 
-#Schema entry points
+#Schema entry point
 type Query {
     lookup(symbol: String!): Lookup!
-}
-
-type Mutation {
-    quote(symbol: String!): QuoteResult!
 }
 
 #Type definitions for schema
@@ -18,9 +14,45 @@ enum Resolution {
     quarterly
 }
 
+enum Timeframe {
+    today
+    ytd
+    year1
+    year5
+    year10
+    max
+}
+
 type Lookup {
     symbol: String!
+    companyName: String!
+    logoUrl: String
+    stats: StatsResult!
+    snapshot(timeframe: Timeframe!): SnapshotResult!
+    historicalTotalReturn(timeframe: Timeframe!): TotalReturnResult!
+
+    #Previous API
+    quote: QuoteResult!
     revenue(resolution: Resolution!): [DataPoint!]!
+}
+
+type StatsResult {
+    marketCap: BigInt!
+    peRatioFwd: Float!
+    peRatioTtm: Float!
+    profitMarginPercent: Float!
+    freeCashFlowYield: Float!
+    dividendYield: Float
+}
+
+type SnapshotResult {
+    changePercent: Float!
+    cagrPercent: Float
+}
+
+type TotalReturnResult {
+    changePercent: Float!
+    data: [DataPoint!]!
 }
 
 type DataPoint {
@@ -32,8 +64,9 @@ type QuoteResult {
     change: Float!
     changePercent: Float!
     companyName: String!
-    peRatio: Float
-    symbol: String!
+    delayedPrice: Float
     latestPrice: Float!
+    marketCap: BigInt!
+    peRatioTTM: Float
     previousClose: Float!
 }
