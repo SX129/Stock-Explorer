@@ -8,6 +8,7 @@ import SearchBar from "../components/SearchBar";
 import SimpleTable from "../components/SimpleTable";
 import { LookupQuery } from "../../generated/graphql";
 import Header from "../components/stocks/Header";
+import Overview from "../components/stocks/Overview";
 //import { formatMoney } from "../..modules/util";
 
 const styles = StyleSheet.create({
@@ -29,7 +30,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 });
 
 //Parent view for all components
-const Overview: FC = () => {
+const LookupScreen: FC = () => {
 
     const { symbol } = useLocalSearchParams();
 
@@ -38,15 +39,7 @@ const Overview: FC = () => {
         query Lookup {
             main: lookup(symbol: "AAPL") {
                 ...HeaderLookup
-
-                stats {
-                    marketCap
-                    peRatioTtm
-                    peRatioFwd
-                    profitMarginPercent
-                    freeCashFlowYield
-                    dividendYield
-                }
+                ...OverviewLookup
 
                 snapshotToday: snapshot(timeframe: today) {
                     changePercent
@@ -98,6 +91,7 @@ const Overview: FC = () => {
             }
         }
         ${Header.fragments.lookup}
+        ${Overview.fragments.lookup}
     `, { variables: {symbol}}
     );
 
@@ -117,6 +111,7 @@ const Overview: FC = () => {
             ) : (
                 <View style={styles.body}>
                     <Header lookup={data.main} />
+                    <Overview lookup={data.main} />
 
                     <Text style={styles.revenueHeader}> Revenue </Text>
                     <Chart data={revenueData}/>
@@ -126,4 +121,4 @@ const Overview: FC = () => {
     );
 };
 
-export default Overview;
+export default LookupScreen;
