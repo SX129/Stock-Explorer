@@ -6,9 +6,9 @@ A full-stack stock and finance app that displays the data of a stock/index fund 
 
 ## Tech Stack
 
-**Client:** Typescript, React Native, Apollo Client, Expo, VictoryChart, GraphQL CodeGen
+**Client:** TypeScript, React Native, Apollo Client, Expo, VictoryChart, GraphQL CodeGen
 
-**Server:** Typescript, Node, Apollo Server, GraphQL, iex API, GraphQL CodeGen
+**Server:** TypeScript, Node, Apollo Server, GraphQL, iex API, GraphQL CodeGen
 
 
 ## Features
