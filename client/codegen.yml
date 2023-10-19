@@ -1,0 +1,7 @@
+overwrite: true
+schema: "https://localhost:4000"
+documents: "./**/*.tsx"
+generates:
+  generated/:
+    plugins:
+      - "typescript-common"
