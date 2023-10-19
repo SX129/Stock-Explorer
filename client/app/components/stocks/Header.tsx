@@ -1,4 +1,4 @@
-import { DocumentNode, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
 import React from 'react';
 import { Image, Text, StyleSheet, View } from 'react-native';
 import { HeaderLookupFragment } from '../../../generated/graphql';
