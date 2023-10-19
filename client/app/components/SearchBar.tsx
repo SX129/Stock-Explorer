@@ -1,18 +1,50 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-import React, { useState } from "react";
-import { Button, Text, TextInput, View } from "react-native";
+import React from 'react';
+import { Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
 
-//Initial test component for react native
-const Dashboard: React.FC = () => {
-    const [symbol, setSymbol] = useState('');
+const styles = StyleSheet.create({
+    searchOuter: {
+        backgroundColor: "#555",
+    },
+    searchInner: {
+        flexDirection: "row",
+        margin: 15,
+    },
+    input: {
+        backgroundColor: "#fff",
+        borderTopLeftRadius: 8,
+        borderBottomLeftRadius: 8,
+        flex: 1,
+        padding: 8,
+    },
+    button: {
+        alignItems: "center",
+        backgroundColor: "orange",
+        borderRadius: 0,
+        borderTopRightRadius: 8,
+        borderBottomRightRadius: 8,
+        justifyContent: "center",
+        height: 44,
+        width: 44,
+    },
+    buttonText: {
+        color: "#000",
+        fontWeight: "500",
 
+    },
+});
+
+//Searchbar component
+const SearchBar: React.FC = (symbol) => {
     return (
-    <View>
-        <TextInput value={symbol} onChangeText={setSymbol} />
-        <Button onPress={() => getQuote({variables: { symbol }})} title= "Get Quote" />
-        <Text> {JSON.stringify(error || data)} </Text>
+        <View style={styles.searchOuter}>
+        <SafeAreaView style={styles.searchInner} >
+            <TextInput style={styles.input} value={symbol} onChangeText={symbol} />
+            <Pressable accessibilityLabel="Go" accessibilityRole="button" style={styles.button} onPress={() => execQuery({variables: {symbol}})} >
+                <Text style={styles.buttonText} > Go </Text>
+            </Pressable>
+        </SafeAreaView>
     </View>
     );
 };
 
-export default Dashboard;
+export default SearchBar;

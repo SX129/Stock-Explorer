@@ -1,11 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { useLocalSearchParams  } from "expo-router";
 import { round } from "lodash";
-import { DateTime } from "luxon";
 import { FC } from "react";
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel, VictoryBar } from "victory";
-import Overview from "../symbol/[symbol]";
 
 
 const styles = StyleSheet.create({
@@ -46,20 +43,12 @@ const styles = StyleSheet.create({
 });
 
 //Overview component with Victory charts and Luxon datetime
-const xx: FC = () => {
+const Chart: FC = (data) => {
 
     //Query hook to retrieve queried data and its states
 
     return (
         <ScrollView style={{width: '100%'}}>
-            <View style={styles.searchOuter}>
-                <SafeAreaView style={styles.searchInner} >
-                    <TextInput style={styles.input} value={symbol} onChangeText={symbol} />
-                    <Pressable accessibilityLabel="Go" accessibilityRole="button" style={styles.button} onPress={() => execQuery({variables: {symbol}})} >
-                        <Text style={styles.buttonText} > Go </Text>
-                    </Pressable>
-                </SafeAreaView>
-            </View>
             { loading ? <Text>Loading...</Text> : 
             <View style={styles.victoryContainer}>
                 <VictoryChart theme={VictoryTheme.material} domainPadding={20}>
@@ -81,4 +70,4 @@ const xx: FC = () => {
     );
 };
 
-export default Overview;
+export default Chart;
