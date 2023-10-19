@@ -42,10 +42,11 @@ const styles = StyleSheet.create({
     }
 });
 
-//Overview component with Victory charts and Luxon datetime
-const Chart: FC = (data) => {
+type Props = {
+    data: number;
+};
 
-    //Query hook to retrieve queried data and its states
+const Chart: FC = (data) => {
 
     return (
         <ScrollView style={{width: '100%'}}>
@@ -63,7 +64,7 @@ const Chart: FC = (data) => {
                         } 
                     />
                     <VictoryAxis dependentAxis tickFormat={(x) => `$${x / 1000000000}b`} />
-                    <VictoryBar data={chartData} x="date" y="value" />
+                    <VictoryBar data={data} x="date" y="value" />
                 </VictoryChart>
             </View> }
         </ScrollView>

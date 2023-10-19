@@ -1,5 +1,4 @@
 import { gql, useQuery } from "@apollo/client";
-import { useLocalSearchParams  } from "expo-router";
 import { round } from "lodash";
 import { FC } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -34,7 +33,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 //Parent view for all components
 const LookupScreen: FC = () => {
 
-    const { symbol } = useLocalSearchParams();
+    const [execQuery,{ symbol, setSymbol }] = useQuery();
 
     //Query hook to retrieve queried data and its states
     const {data, loading, error} = useQuery<LookupQuery>(gql`
@@ -83,7 +82,6 @@ const LookupScreen: FC = () => {
 
     if (error) return <Text>{error.message}</Text>;
 
-    //
     const revenueData = data ? [...data.main.revenue].reverse().map((point) => ({
         ...point,
         label: currencyFormatter.format(point.value) })) : [];

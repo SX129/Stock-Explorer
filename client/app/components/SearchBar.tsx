@@ -33,8 +33,11 @@ const styles = StyleSheet.create({
     },
 });
 
-//Searchbar component
-const SearchBar: React.FC = (symbol) => {
+type Props = {
+    defaultValue: number;
+};
+
+const SearchBar: React.FC = ({defaultValue}) => {
     return (
         <View style={styles.searchOuter}>
         <SafeAreaView style={styles.searchInner} >

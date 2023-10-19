@@ -2,7 +2,6 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { Button, Text, TextInput, View } from "react-native";
 
-//Initial test component for react native
 const Dashboard: React.FC = () => {
     const [symbol, setSymbol] = useState('');
 
