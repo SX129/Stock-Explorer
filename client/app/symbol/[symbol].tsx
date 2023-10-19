@@ -13,7 +13,6 @@ import Header from "../components/stocks/Header";
 const styles = StyleSheet.create({
     body: {
         backgroundColor: "#fff",
-        padding: 30,
     },
     attributes: {
         paddingBottom: 45,
@@ -29,10 +28,9 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
     maximumFractionDigits: 0,
 });
 
-//Overview component with Victory charts and Luxon datetime
+//Parent view for all components
 const Overview: FC = () => {
 
-    //
     const { symbol } = useLocalSearchParams();
 
     //Query hook to retrieve queried data and its states

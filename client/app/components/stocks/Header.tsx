@@ -2,14 +2,18 @@ import { DocumentNode, gql } from '@apollo/client';
 import React from 'react';
 import { Image, Text, StyleSheet, View } from 'react-native';
 import { HeaderLookupFragment } from '../../../generated/graphql';
-import { colors } from '../styles';
+import { colors, spacing } from '../styles';
 import Spacer from '../Spacer';
 
 const styles = StyleSheet.create({
     container: {
         alignItems: "center",
+        borderColor: colors.border,
+        borderBottomWidth: 1,
         flexDirection: "row",
         justifyContent: "space-between",
+        paddingLeft: spacing[400],
+        paddingTop: 24,
     },
     symbol: {
         color: colors.labelSubtle,
@@ -19,8 +23,8 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     logo: {
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
     },
 });
 
