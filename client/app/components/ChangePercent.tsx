@@ -2,6 +2,7 @@ import React from "react";
 import {StyleSheet, View, Text} from 'react-native';
 import { colors } from "./styles";
 import Svg, { Path } from "react-native-svg";
+import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
 
 const styles = StyleSheet.create({
     container: {
@@ -26,16 +27,16 @@ const styles = StyleSheet.create({
     },
 });
 
-type Props = {
+type Props = ViewProps & {
     value: number;
 };
 
-const ChangePercent: React.FC<Props> = ({value}) => {
+const ChangePercent: React.FC<Props> = ({value, style, ...restProps}) => {
 
     const isPositive = value >= 0;
 
     return (
-        <View style={[styles.container, !isPositive && styles.negative]}>
+        <View {...restProps} style={[styles.container, !isPositive && styles.negative, style]}>
             {isPositive ? <UpArrow /> : <DownArrow/>}
             <Text style={[styles.text, !isPositive && styles.textNegative]}>{Math.abs(value)}%</Text>
         </View>

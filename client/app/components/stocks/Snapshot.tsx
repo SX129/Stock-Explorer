@@ -13,6 +13,24 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 18,
+        marginBottom: 18,
+    },
+    group: {
+        flex: 1,
+    },
+    groups: {
+        flexDirection: "row",
+    },
+    cagr: {
+        color: colors.labelSubtle,
+        fontSize: 10,
+        alignSelf: "flex-end",
+    },
+    percent: {
+        marginVertical: 4,
+    },
+    timeframe: {
+        fontSize: 12,
     },
 });
 
@@ -25,9 +43,32 @@ const Snapshot: React.FC<Props> & WithFragments= ({lookup}) => {
         <View style={styles.container}>
             <Text style={styles.header}>Snapshot</Text>
 
-            <Text>10Y</Text>
-            <ChangePercent value={lookup.snapshot10Year.changePercent} />
-            <Text>{lookup.snapshot10Year.cagrPercent}%</Text>
+            <View style={styles.groups}>
+                <View style={styles.group}>
+                    <Text style={styles.timeframe} >Today</Text>
+                    <ChangePercent value={lookup.snapshotToday.changePercent} style={styles.percent} />
+                </View>
+                <Spacer width={10}/>
+
+                <View style={styles.group}>
+                    <Text style={styles.timeframe}>1Y</Text>
+                    <ChangePercent value={lookup.snapshot1Year.changePercent} style={styles.percent} />
+                </View>
+                <Spacer width={10}/>
+
+                <View style={styles.group}>
+                    <Text style={styles.timeframe}>5Y</Text>
+                    <ChangePercent value={lookup.snapshot5Year.changePercent} style={styles.percent} />
+                    <Text style={styles.cagr}>{lookup.snapshot5Year.cagrPercent}%</Text>
+                </View>
+                <Spacer width={10}/>
+
+                <View style={styles.group}>
+                    <Text style={styles.timeframe}>10Y</Text>
+                    <ChangePercent value={lookup.snapshot10Year.changePercent} style={styles.percent} />
+                    <Text style={styles.cagr}>{lookup.snapshot10Year.cagrPercent}%</Text>
+                </View>
+            </View>
         </View>
     );
 };

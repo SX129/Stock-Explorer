@@ -99,7 +99,7 @@ const LookupScreen: FC = () => {
                     <Header lookup={data.main} />
                     <Spacer height={24} />
                     <Overview lookup={data.main} />
-                    <Spacer height={24} />
+                    <Spacer height={64} />
                     <Snapshot lookup={data.main} />
 
                     <Text style={styles.revenueHeader}> Revenue </Text>
