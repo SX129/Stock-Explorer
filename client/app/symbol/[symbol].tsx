@@ -10,6 +10,7 @@ import { LookupQuery } from "../../generated/graphql";
 import Header from "../components/stocks/Header";
 import Overview from "../components/stocks/Overview";
 import Spacer from "../components/Spacer";
+import Snapshot from "../components/stocks/Snapshot";
 //import { formatMoney } from "../..modules/util";
 
 const styles = StyleSheet.create({
@@ -41,24 +42,7 @@ const LookupScreen: FC = () => {
             main: lookup(symbol: "AAPL") {
                 ...HeaderLookup
                 ...OverviewLookup
-
-                snapshotToday: snapshot(timeframe: today) {
-                    changePercent
-                }
-
-                snapshot1Year: snapshot(timeframe: year1) {
-                    changePercent
-                }
-
-                snapshot5Year: snapshot(timeframe: year5) {
-                    changePercent
-                    cagrPercent
-                }
-
-                snapshot10Year: snapshot(timeframe: year10) {
-                    changePercent
-                    cagrPercent
-                }
+                ...SnapshotLookup
 
                 historicalTotalReturn(timeframe: year10) {
                     changePercent
@@ -93,6 +77,7 @@ const LookupScreen: FC = () => {
         }
         ${Header.fragments.lookup}
         ${Overview.fragments.lookup}
+        ${Snapshot.fragments.lookup}
     `, { variables: {symbol}}
     );
 
@@ -114,6 +99,8 @@ const LookupScreen: FC = () => {
                     <Header lookup={data.main} />
                     <Spacer height={24} />
                     <Overview lookup={data.main} />
+                    <Spacer height={24} />
+                    <Snapshot lookup={data.main} />
 
                     <Text style={styles.revenueHeader}> Revenue </Text>
                     <Chart data={revenueData}/>
