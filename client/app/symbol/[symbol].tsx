@@ -9,6 +9,7 @@ import SimpleTable from "../components/SimpleTable";
 import { LookupQuery } from "../../generated/graphql";
 import Header from "../components/stocks/Header";
 import Overview from "../components/stocks/Overview";
+import Spacer from "../components/Spacer";
 //import { formatMoney } from "../..modules/util";
 
 const styles = StyleSheet.create({
@@ -111,6 +112,7 @@ const LookupScreen: FC = () => {
             ) : (
                 <View style={styles.body}>
                     <Header lookup={data.main} />
+                    <Spacer height={24} />
                     <Overview lookup={data.main} />
 
                     <Text style={styles.revenueHeader}> Revenue </Text>
