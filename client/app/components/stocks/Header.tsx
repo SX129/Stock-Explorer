@@ -4,6 +4,7 @@ import { Image, Text, StyleSheet, View } from 'react-native';
 import { HeaderLookupFragment } from '../../../generated/graphql';
 import { colors, spacing } from '../styles';
 import Spacer from '../Spacer';
+import { WithFragments } from '../types';
 
 const styles = StyleSheet.create({
     container: {
@@ -32,7 +33,7 @@ type Props = {
     lookup: HeaderLookupFragment
 };
 
-const Header: React.FC<Props> & {fragments: {[key: string]: DocumentNode };}= ({lookup}) => {
+const Header: React.FC<Props> & WithFragments= ({lookup}) => {
     return(
         <View style={styles.container}>
             <View>
