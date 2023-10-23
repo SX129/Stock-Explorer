@@ -15,7 +15,7 @@ A full-stack stock and finance app that displays the data of a stock/index fund 
 
 - Web, iOS, Android compatibility
 - Compare data between individual stocks and index funds
-- Visualize data with charts
+- Visualize markets with charts by tracking asset prices and key indicators
 
 
 ## Roadmap
